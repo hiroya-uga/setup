@@ -1,0 +1,10 @@
+brew "git"
+brew "gpg"
+brew "openssl"
+brew "tree"
+brew "mise"
+
+cask "google-chrome"
+cask "firefox"
+cask "visual-studio-code"
+cask "stats"

@@ -1,0 +1,6 @@
+[submodule "windows/scoop"]
+	path = windows/scoop
+	url = https://github.com/hiroya-uga/scoop-hiroya-uga-bucket.git
+[submodule "dotfiles"]
+	path = dotfiles
+	url = https://github.com/hiroya-uga/dotfiles.git
