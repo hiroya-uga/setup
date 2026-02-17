@@ -1,7 +1,8 @@
 # Setup
 
-```sh
+```zsh
 git clone git@github.com:hiroya-uga/setup.git --recursive
+# git submodule update --init --recursive
 ```
 
 This repository sets up my development environment for **macOS** and **Windows**.
