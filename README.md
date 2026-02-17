@@ -1,5 +1,9 @@
 # Setup
 
+```
+git clone git@github.com:hiroya-uga/setup.git --recursive
+```
+
 This repository sets up my development environment for **macOS** and **Windows**.
 
 ## What it does
