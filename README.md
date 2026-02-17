@@ -1,6 +1,6 @@
 # Setup
 
-```
+```sh
 git clone git@github.com:hiroya-uga/setup.git --recursive
 ```
 
