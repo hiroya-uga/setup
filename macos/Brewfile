@@ -1,6 +1,5 @@
 brew "git"
 brew "gpg"
-brew "openssl"
 brew "tree"
 brew "mise"
 
