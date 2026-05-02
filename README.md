@@ -5,8 +5,8 @@ This repository sets up my development environment for **macOS** and **Windows**
 ## Layout
 
 - `homebrew/Brewfile`: packages for macOS
-- `homebrew/Brewfile.personal`: optional personal macOS packages
-- `homebrew/Brewfile.work`: optional work macOS packages
+- `homebrew/Brewfile-personal`: optional personal macOS packages
+- `homebrew/Brewfile-work`: optional work macOS packages
 - `scoop/scoopfile.json`: packages for Windows
 - `scoop/bucket/*.json`: local Scoop manifests managed in this repo
 - `dotfiles/common`: shared config for Git, editors, Claude Code, and mise

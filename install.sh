@@ -61,11 +61,11 @@ fi
 bundle_files=("$CURRENT_DIR/homebrew/Brewfile")
 
 if [[ "$INSTALL_PERSONAL" == "true" ]]; then
-  bundle_files+=("$CURRENT_DIR/homebrew/Brewfile.personal")
+  bundle_files+=("$CURRENT_DIR/homebrew/Brewfile-personal")
 fi
 
 if [[ "$INSTALL_WORK" == "true" ]]; then
-  bundle_files+=("$CURRENT_DIR/homebrew/Brewfile.work")
+  bundle_files+=("$CURRENT_DIR/homebrew/Brewfile-work")
 fi
 
 for bundle_file in "${bundle_files[@]}"; do
