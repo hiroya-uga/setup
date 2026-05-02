@@ -1,0 +1,11 @@
+{
+  "version": "2025.2",
+  "description": "NVDA - Free and open source screen reader for Microsoft Windows",
+  "homepage": "https://www.nvda.jp/",
+  "license": "GPL-2.0-only",
+  "url": "https://github.com/nvdajp/nvdajp/releases/download/release-2025.2jp/nvda_2025.2jp.exe",
+  "hash": "sha256:adfba20b4e88d13babb08af16b6225de8e30738db06325faffd005b0be3d858d",
+  "installer": {
+    "args": ["/S"]
+  }
+}

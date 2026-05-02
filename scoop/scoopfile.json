@@ -1,0 +1,16 @@
+{
+  "apps": [
+    "git",
+    "gpg4win",
+    "gsudo",
+    "mise",
+    "nvda-jp",
+    "openssh",
+    "powertoys",
+    "pwsh",
+    "sublime-text",
+    "vim",
+    "vscode",
+    "winmerge"
+  ]
+}

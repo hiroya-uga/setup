@@ -1,0 +1,13 @@
+[core]
+	autocrlf = false
+	safecrlf = true
+	ignorecase = true
+	quotepath = false
+	pager = LESSCHARSET=utf-8 less
+	excludesfile = ~/.gitignore_global
+
+[commit]
+	gpgsign = true
+
+[include]
+	path = ~/.gitconfig.local
