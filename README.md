@@ -37,8 +37,9 @@ Run the install script for your platform.
 zsh ./install.sh
 ```
 
-Use `--symlink` to link files instead of copying them.
+Symlinks are the default. Use `--copy` to copy files instead.
 Use `--personal` and `--work` to include optional Homebrew overlays.
+Use `--dotfiles-only` to skip Homebrew and only refresh dotfiles.
 
 ### Windows (PowerShell)
 

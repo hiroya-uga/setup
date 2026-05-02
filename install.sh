@@ -4,21 +4,24 @@ set -eu
 echo "🍣 Setting up macOS ..."
 
 CURRENT_DIR="$(cd "$(dirname "$0")" && pwd)"
-USE_SYMLINK=false
+USE_SYMLINK=true
 FORCE_OVERWRITE=false
 INSTALL_PERSONAL=false
 INSTALL_WORK=false
+DOTFILES_ONLY=false
 
 usage() {
-  echo "Usage: zsh ./install.sh [--symlink] [--force] [--personal] [--work]"
+  echo "Usage: zsh ./install.sh [--symlink|--copy] [--force] [--personal] [--work] [--dotfiles-only]"
 }
 
 for arg in "$@"; do
   case "$arg" in
     --symlink) USE_SYMLINK=true ;;
+    --copy) USE_SYMLINK=false ;;
     --force) FORCE_OVERWRITE=true ;;
     --personal) INSTALL_PERSONAL=true ;;
     --work) INSTALL_WORK=true ;;
+    --dotfiles-only|--skip-brew) DOTFILES_ONLY=true ;;
     -h|--help)
       usage
       exit 0
@@ -54,31 +57,35 @@ install_file() {
   fi
 }
 
-if ! command -v brew >/dev/null 2>&1; then
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-
-bundle_files=("$CURRENT_DIR/homebrew/Brewfile")
-
-if [[ "$INSTALL_PERSONAL" == "true" ]]; then
-  bundle_files+=("$CURRENT_DIR/homebrew/Brewfile-personal")
-fi
-
-if [[ "$INSTALL_WORK" == "true" ]]; then
-  bundle_files+=("$CURRENT_DIR/homebrew/Brewfile-work")
-fi
-
-for bundle_file in "${bundle_files[@]}"; do
-  if [[ ! -f "$bundle_file" ]]; then
-    echo "Missing Brewfile: $bundle_file" >&2
-    exit 1
+if [[ "$DOTFILES_ONLY" == "true" ]]; then
+  echo "⏭️  Skipping Homebrew installation (--dotfiles-only)"
+else
+  if ! command -v brew >/dev/null 2>&1; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   fi
 
-  echo "🍣 Installing packages from ${bundle_file#$CURRENT_DIR/} ..."
-  brew bundle --file="$bundle_file"
-done
+  bundle_files=("$CURRENT_DIR/homebrew/Brewfile")
 
-echo "✅ Brew installation completed!"
+  if [[ "$INSTALL_PERSONAL" == "true" ]]; then
+    bundle_files+=("$CURRENT_DIR/homebrew/Brewfile-personal")
+  fi
+
+  if [[ "$INSTALL_WORK" == "true" ]]; then
+    bundle_files+=("$CURRENT_DIR/homebrew/Brewfile-work")
+  fi
+
+  for bundle_file in "${bundle_files[@]}"; do
+    if [[ ! -f "$bundle_file" ]]; then
+      echo "Missing Brewfile: $bundle_file" >&2
+      exit 1
+    fi
+
+    echo "🍣 Installing packages from ${bundle_file#$CURRENT_DIR/} ..."
+    brew bundle --file="$bundle_file"
+  done
+
+  echo "✅ Brew installation completed!"
+fi
 
 install_file "$CURRENT_DIR/dotfiles/macos/zsh/.zshenv" "$HOME/.zshenv"
 install_file "$CURRENT_DIR/dotfiles/macos/zsh/.zprofile" "$HOME/.zprofile"
@@ -105,8 +112,12 @@ clone_skill() {
   fi
 }
 
-clone_skill "git@github.com:uga-skills/git-commit.git" "git-commit"
-clone_skill "git@github.com:uga-skills/review-markup.git" "review-markup"
+if [[ "$DOTFILES_ONLY" == "true" ]]; then
+  echo "⏭️  Skipping Claude skill clone (--dotfiles-only)"
+else
+  clone_skill "git@github.com:uga-skills/git-commit.git" "git-commit"
+  clone_skill "git@github.com:uga-skills/review-markup.git" "review-markup"
+fi
 
 if [[ "$USE_SYMLINK" == "true" ]]; then
   echo "✅ Dotfiles have been linked!"
