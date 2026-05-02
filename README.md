@@ -6,6 +6,7 @@ This repository sets up my development environment for **macOS** and **Windows**
 
 - `homebrew/Brewfile`: packages for macOS
 - `homebrew/Brewfile-personal`: optional personal macOS packages
+- `config/claude-skills.txt`: Claude skills cloned by the macOS setup
 - `scoop/scoopfile.json`: packages for Windows
 - `scoop/bucket/*.json`: local Scoop manifests managed in this repo
 - `dotfiles/common`: shared config for Git, editors, Claude Code, and mise
@@ -38,7 +39,10 @@ zsh ./install.sh
 
 Symlinks are the default. Use `--copy` to copy files instead.
 Use `-p` or `--personal` to include the optional personal Homebrew overlay.
-Use `-d` or `--dotfiles-only` to skip Homebrew and only refresh dotfiles.
+Use `-b` or `--brew-only` to install Homebrew packages only.
+Use `-d` or `--dotfiles-only` to refresh dotfiles only.
+Use `--skills-clone-only` to clone Claude skills only.
+The default full setup also clones the Claude skills listed in `config/claude-skills.txt`.
 
 ### Windows (PowerShell)
 

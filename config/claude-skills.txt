@@ -1,0 +1,3 @@
+# name repo
+git-commit git@github.com:uga-skills/git-commit.git
+review-markup git@github.com:uga-skills/review-markup.git
