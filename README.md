@@ -37,8 +37,8 @@ zsh ./install.sh
 ```
 
 Symlinks are the default. Use `--copy` to copy files instead.
-Use `--personal` or `-p` to include the optional personal Homebrew overlay.
-Use `--dotfiles-only` or `-d` to skip Homebrew and only refresh dotfiles.
+Use `-p` or `--personal` to include the optional personal Homebrew overlay.
+Use `-d` or `--dotfiles-only` to skip Homebrew and only refresh dotfiles.
 
 ### Windows (PowerShell)
 
