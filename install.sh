@@ -19,7 +19,7 @@ Options:
   --copy                 Copy dotfiles instead of symlinking them
   --force                Replace existing files instead of backing them up
   --personal, -p         Include homebrew/Brewfile-personal
-  --dotfiles-only
+  --dotfiles-only, -d
   --skip-brew            Skip Homebrew and Claude skill installation
   -h, --help             Show this help
 
@@ -27,7 +27,7 @@ Examples:
   zsh ./install.sh
   zsh ./install.sh -p
   zsh ./install.sh --copy --force
-  zsh ./install.sh --dotfiles-only
+  zsh ./install.sh -d
 
 Notes:
   Existing files are backed up as *_bak_<timestamp> unless --force is used.
@@ -41,7 +41,7 @@ for arg in "$@"; do
     --copy) USE_SYMLINK=false ;;
     --force) FORCE_OVERWRITE=true ;;
     --personal|-p) INSTALL_PERSONAL=true ;;
-    --dotfiles-only|--skip-brew) DOTFILES_ONLY=true ;;
+    --dotfiles-only|-d|--skip-brew) DOTFILES_ONLY=true ;;
     -h|--help)
       usage
       exit 0
@@ -80,7 +80,7 @@ install_file() {
 }
 
 if [[ "$DOTFILES_ONLY" == "true" ]]; then
-  echo "⏭️  Skipping Homebrew installation (--dotfiles-only)"
+  echo "⏭️  Skipping Homebrew installation (--dotfiles-only / -d)"
 else
   if ! command -v brew >/dev/null 2>&1; then
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -131,7 +131,7 @@ clone_skill() {
 }
 
 if [[ "$DOTFILES_ONLY" == "true" ]]; then
-  echo "⏭️  Skipping Claude skill clone (--dotfiles-only)"
+  echo "⏭️  Skipping Claude skill clone (--dotfiles-only / -d)"
 else
   clone_skill "git@github.com:uga-skills/git-commit.git" "git-commit"
   clone_skill "git@github.com:uga-skills/review-markup.git" "review-markup"
