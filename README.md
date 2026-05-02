@@ -6,7 +6,6 @@ This repository sets up my development environment for **macOS** and **Windows**
 
 - `homebrew/Brewfile`: packages for macOS
 - `homebrew/Brewfile-personal`: optional personal macOS packages
-- `homebrew/Brewfile-work`: optional work macOS packages
 - `scoop/scoopfile.json`: packages for Windows
 - `scoop/bucket/*.json`: local Scoop manifests managed in this repo
 - `dotfiles/common`: shared config for Git, editors, Claude Code, and mise
@@ -16,7 +15,7 @@ This repository sets up my development environment for **macOS** and **Windows**
 ## What it does
 
 1. Installs packages
-   - On **macOS**, installs Homebrew packages from `homebrew/Brewfile` plus optional overlays
+   - On **macOS**, installs Homebrew packages from `homebrew/Brewfile` plus an optional personal overlay
    - On **Windows**, installs Scoop and packages from `scoop/scoopfile.json`
 1. Deploys shared and OS-specific dotfiles from this repository
 
@@ -38,7 +37,7 @@ zsh ./install.sh
 ```
 
 Symlinks are the default. Use `--copy` to copy files instead.
-Use `--personal` and `--work` to include optional Homebrew overlays.
+Use `--personal` or `-p` to include the optional personal Homebrew overlay.
 Use `--dotfiles-only` to skip Homebrew and only refresh dotfiles.
 
 ### Windows (PowerShell)

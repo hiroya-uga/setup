@@ -7,11 +7,10 @@ CURRENT_DIR="$(cd "$(dirname "$0")" && pwd)"
 USE_SYMLINK=true
 FORCE_OVERWRITE=false
 INSTALL_PERSONAL=false
-INSTALL_WORK=false
 DOTFILES_ONLY=false
 
 usage() {
-  echo "Usage: zsh ./install.sh [--symlink|--copy] [--force] [--personal] [--work] [--dotfiles-only]"
+  echo "Usage: zsh ./install.sh [--symlink|--copy] [--force] [--personal|-p] [--dotfiles-only]"
 }
 
 for arg in "$@"; do
@@ -19,8 +18,7 @@ for arg in "$@"; do
     --symlink) USE_SYMLINK=true ;;
     --copy) USE_SYMLINK=false ;;
     --force) FORCE_OVERWRITE=true ;;
-    --personal) INSTALL_PERSONAL=true ;;
-    --work) INSTALL_WORK=true ;;
+    --personal|-p) INSTALL_PERSONAL=true ;;
     --dotfiles-only|--skip-brew) DOTFILES_ONLY=true ;;
     -h|--help)
       usage
@@ -68,10 +66,6 @@ else
 
   if [[ "$INSTALL_PERSONAL" == "true" ]]; then
     bundle_files+=("$CURRENT_DIR/homebrew/Brewfile-personal")
-  fi
-
-  if [[ "$INSTALL_WORK" == "true" ]]; then
-    bundle_files+=("$CURRENT_DIR/homebrew/Brewfile-work")
   fi
 
   for bundle_file in "${bundle_files[@]}"; do
