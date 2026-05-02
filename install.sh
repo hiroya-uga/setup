@@ -1,8 +1,6 @@
 #!/bin/zsh
 set -eu
 
-echo "🍣 Setting up macOS ..."
-
 CURRENT_DIR="$(cd "$(dirname "$0")" && pwd)"
 USE_SYMLINK=true
 FORCE_OVERWRITE=false
@@ -10,7 +8,31 @@ INSTALL_PERSONAL=false
 DOTFILES_ONLY=false
 
 usage() {
-  echo "Usage: zsh ./install.sh [--symlink|--copy] [--force] [--personal|-p] [--dotfiles-only]"
+  cat <<EOF
+Usage:
+  zsh ./install.sh [options]
+
+Set up macOS packages and dotfiles from this repository.
+
+Options:
+  --symlink              Symlink dotfiles into \$HOME (default)
+  --copy                 Copy dotfiles instead of symlinking them
+  --force                Replace existing files instead of backing them up
+  --personal, -p         Include homebrew/Brewfile-personal
+  --dotfiles-only
+  --skip-brew            Skip Homebrew and Claude skill installation
+  -h, --help             Show this help
+
+Examples:
+  zsh ./install.sh
+  zsh ./install.sh -p
+  zsh ./install.sh --copy --force
+  zsh ./install.sh --dotfiles-only
+
+Notes:
+  Existing files are backed up as *_bak_<timestamp> unless --force is used.
+  Homebrew is installed automatically if it is not already available.
+EOF
 }
 
 for arg in "$@"; do
@@ -31,6 +53,8 @@ for arg in "$@"; do
       ;;
   esac
 done
+
+echo "🍣 Setting up macOS ..."
 
 install_file() {
   local src=$1
