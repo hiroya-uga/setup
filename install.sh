@@ -6,15 +6,19 @@ echo "🍣 Setting up macOS ..."
 CURRENT_DIR="$(cd "$(dirname "$0")" && pwd)"
 USE_SYMLINK=false
 FORCE_OVERWRITE=false
+INSTALL_PERSONAL=false
+INSTALL_WORK=false
 
 usage() {
-  echo "Usage: zsh ./install.sh [--symlink] [--force]"
+  echo "Usage: zsh ./install.sh [--symlink] [--force] [--personal] [--work]"
 }
 
 for arg in "$@"; do
   case "$arg" in
     --symlink) USE_SYMLINK=true ;;
     --force) FORCE_OVERWRITE=true ;;
+    --personal) INSTALL_PERSONAL=true ;;
+    --work) INSTALL_WORK=true ;;
     -h|--help)
       usage
       exit 0
@@ -54,16 +58,37 @@ if ! command -v brew >/dev/null 2>&1; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 
-echo "🍣 Installing packages from $CURRENT_DIR/homebrew/Brewfile ..."
-brew bundle --file="$CURRENT_DIR/homebrew/Brewfile"
+bundle_files=("$CURRENT_DIR/homebrew/Brewfile")
+
+if [[ "$INSTALL_PERSONAL" == "true" ]]; then
+  bundle_files+=("$CURRENT_DIR/homebrew/Brewfile.personal")
+fi
+
+if [[ "$INSTALL_WORK" == "true" ]]; then
+  bundle_files+=("$CURRENT_DIR/homebrew/Brewfile.work")
+fi
+
+for bundle_file in "${bundle_files[@]}"; do
+  if [[ ! -f "$bundle_file" ]]; then
+    echo "Missing Brewfile: $bundle_file" >&2
+    exit 1
+  fi
+
+  echo "🍣 Installing packages from ${bundle_file#$CURRENT_DIR/} ..."
+  brew bundle --file="$bundle_file"
+done
+
 echo "✅ Brew installation completed!"
 
+install_file "$CURRENT_DIR/dotfiles/macos/zsh/.zshenv" "$HOME/.zshenv"
+install_file "$CURRENT_DIR/dotfiles/macos/zsh/.zprofile" "$HOME/.zprofile"
 install_file "$CURRENT_DIR/dotfiles/macos/zsh/.zshrc" "$HOME/.zshrc"
 install_file "$CURRENT_DIR/dotfiles/common/git/.gitconfig" "$HOME/.gitconfig"
 install_file "$CURRENT_DIR/dotfiles/common/git/.gitignore_global" "$HOME/.gitignore_global"
 install_file "$CURRENT_DIR/dotfiles/common/editor/.editorconfig" "$HOME/.editorconfig"
 install_file "$CURRENT_DIR/dotfiles/common/editor/.prettierrc.js" "$HOME/.prettierrc.js"
 install_file "$CURRENT_DIR/dotfiles/common/claude/settings.json" "$HOME/.claude/settings.json"
+install_file "$CURRENT_DIR/dotfiles/common/mise/config.toml" "$HOME/.config/mise/config.toml"
 
 SKILLS_DIR="$HOME/.claude/skills"
 mkdir -p "$SKILLS_DIR"
@@ -89,5 +114,8 @@ else
   echo "✅ Dotfiles have been copied!"
 fi
 echo "   👉 Configure your Git identity in ~/.gitconfig.local"
+echo "   👉 Add machine-specific login shell overrides in ~/.zprofile.local"
+echo "   👉 Add machine-specific shell env overrides in ~/.zshenv.local"
 echo "   👉 Add machine-specific shell overrides in ~/.zshrc.local"
+echo "   👉 Add machine-specific mise overrides in ~/.config/mise/conf.d/*.toml"
 echo ""

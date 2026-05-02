@@ -42,6 +42,7 @@ Install-File "$CURRENT_DIR\dotfiles\common\git\.gitignore_global" "$HOME\.gitign
 Install-File "$CURRENT_DIR\dotfiles\common\editor\.editorconfig" "$HOME\.editorconfig" -Force:$Force
 Install-File "$CURRENT_DIR\dotfiles\common\editor\.prettierrc.js" "$HOME\.prettierrc.js" -Force:$Force
 Install-File "$CURRENT_DIR\dotfiles\common\claude\settings.json" "$HOME\.claude\settings.json" -Force:$Force
+Install-File "$CURRENT_DIR\dotfiles\common\mise\config.toml" "$HOME\.config\mise\config.toml" -Force:$Force
 
 $SkillsDir = "$HOME\.claude\skills"
 if (-not (Test-Path -LiteralPath $SkillsDir)) {
@@ -62,5 +63,6 @@ Clone-Skill "git@github.com:uga-skills/review-markup.git" "review-markup"
 
 Write-Host "✅ Dotfiles have been copied!"
 Write-Host "   👉 Configure your Git identity in ~/.gitconfig.local"
+Write-Host "   👉 Add machine-specific mise overrides in ~/.config/mise/conf.d/*.toml"
 Write-Host "   👉 Add machine-specific profile overrides in Microsoft.PowerShell_profile.local.ps1"
 Write-Host ""
