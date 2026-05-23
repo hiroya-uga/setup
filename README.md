@@ -19,6 +19,7 @@ This repository sets up my development environment for **macOS** and **Windows**
    - On **macOS**, installs Homebrew packages from `homebrew/Brewfile` plus an optional personal overlay
    - On **Windows**, installs Scoop and packages from `scoop/scoopfile.json`
 1. Deploys shared and OS-specific dotfiles from this repository
+1. On **Windows**, optionally applies registry tweaks (asks interactively: show file extensions / hidden files, enable clipboard history, dark mode, hide recent apps from Start)
 
 ## Clone
 
@@ -51,6 +52,7 @@ The default full setup also clones the Claude skills listed in `config/claude-sk
 ```
 
 Use `-Force` to replace existing files.
+The script prompts whether to apply the Windows registry tweaks; answer `y` to apply.
 
 ## Local-only overrides
 

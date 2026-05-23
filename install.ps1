@@ -44,6 +44,29 @@ Install-File "$CURRENT_DIR\dotfiles\common\editor\.prettierrc.js" "$HOME\.pretti
 Install-File "$CURRENT_DIR\dotfiles\common\claude\settings.json" "$HOME\.claude\settings.json" -Force:$Force
 Install-File "$CURRENT_DIR\dotfiles\common\mise\config.toml" "$HOME\.config\mise\config.toml" -Force:$Force
 
+function Set-Reg($path, $name, $value) {
+  if (-not (Test-Path -LiteralPath $path)) {
+    New-Item -Path $path -Force | Out-Null
+  }
+  Set-ItemProperty -LiteralPath $path -Name $name -Value $value -Type DWord
+}
+
+$applyReg = Read-Host "Apply registry tweaks (show extensions/hidden files, clipboard history, dark mode, hide recent apps)? [y/N]"
+if ($applyReg -match "^[yY]") {
+  $ExplorerAdvanced = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+  Set-Reg $ExplorerAdvanced "HideFileExt" 0      # 拡張子を表示
+  Set-Reg $ExplorerAdvanced "Hidden" 1           # 隠しファイルを表示
+  Set-Reg $ExplorerAdvanced "Start_TrackProgs" 0 # スタートの「最近開いた項目」を非表示
+
+  Set-Reg "HKCU:\Software\Microsoft\Clipboard" "EnableClipboardHistory" 1 # クリップボード履歴
+
+  Set-Reg "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" "AppsUseLightTheme" 0 # ダークモード
+
+  Write-Host "✅ Registry tweaks applied."
+} else {
+  Write-Host "⏭️  Skipped registry tweaks."
+}
+
 $SkillsDir = "$HOME\.claude\skills"
 if (-not (Test-Path -LiteralPath $SkillsDir)) {
   New-Item -ItemType Directory -Path $SkillsDir -Force | Out-Null
