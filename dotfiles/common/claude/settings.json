@@ -1,4 +1,17 @@
 {
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const fs=require('fs'),p=require('path'),os=require('os');const d=p.join(os.homedir(),'.claude','personals');try{const f=fs.readdirSync(d).filter(x=>x.endsWith('.md'));if(f.length){const pick=f[Math.floor(Math.random()*f.length)];process.stdout.write('## 今回の人格\\n'+fs.readFileSync(p.join(d,pick),'utf8'));}}catch(e){}\""
+          }
+        ]
+      }
+    ]
+  },
   "spinnerVerbs": {
     "mode": "replace",
     "verbs": [

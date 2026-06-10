@@ -77,10 +77,17 @@ done
 
 echo "🍣 Setting up macOS ..."
 
+GITCONFIG_LOCAL="$HOME/.gitconfig.local"
+# Path of the backed-up ~/.gitconfig, if the dotfiles step replaced one. Used to
+# tell the user where to copy their old Git settings from.
+GITCONFIG_BACKUP=""
+LAST_BACKUP=""
+
 install_file() {
   local src=$1
   local dst=$2
 
+  LAST_BACKUP=""
   mkdir -p "$(dirname "$dst")"
 
   if [ -e "$dst" ] || [ -L "$dst" ]; then
@@ -89,6 +96,7 @@ install_file() {
     else
       local bak="${dst}_bak_$(date +%Y%m%d%H%M%S)"
       mv "$dst" "$bak"
+      LAST_BACKUP="$bak"
       echo "Backed up existing file: $dst -> $bak"
     fi
   fi
@@ -145,10 +153,16 @@ else
   install_file "$CURRENT_DIR/dotfiles/macos/zsh/.zprofile" "$HOME/.zprofile"
   install_file "$CURRENT_DIR/dotfiles/macos/zsh/.zshrc" "$HOME/.zshrc"
   install_file "$CURRENT_DIR/dotfiles/common/git/.gitconfig" "$HOME/.gitconfig"
+  GITCONFIG_BACKUP="$LAST_BACKUP"
   install_file "$CURRENT_DIR/dotfiles/common/git/.gitignore_global" "$HOME/.gitignore_global"
   install_file "$CURRENT_DIR/dotfiles/common/editor/.editorconfig" "$HOME/.editorconfig"
   install_file "$CURRENT_DIR/dotfiles/common/editor/.prettierrc.js" "$HOME/.prettierrc.js"
   install_file "$CURRENT_DIR/dotfiles/common/claude/settings.json" "$HOME/.claude/settings.json"
+  install_file "$CURRENT_DIR/dotfiles/common/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+  for personal in "$CURRENT_DIR"/dotfiles/common/claude/personals/*.md; do
+    [ -e "$personal" ] || continue
+    install_file "$personal" "$HOME/.claude/personals/$(basename "$personal")"
+  done
   install_file "$CURRENT_DIR/dotfiles/common/mise/config.toml" "$HOME/.config/mise/config.toml"
 fi
 
@@ -206,10 +220,23 @@ if [[ "$ONLY_MODE" != "brew" && "$ONLY_MODE" != "skills" ]]; then
   else
     echo "✅ Dotfiles have been copied!"
   fi
+
+  if git config --file "$GITCONFIG_LOCAL" --get user.email >/dev/null 2>&1; then
+    echo "   👉 Git identity is set in ~/.gitconfig.local. Update it with:"
+  else
+    echo "   👉 Configure your Git identity in ~/.gitconfig.local:"
+  fi
+  echo "        git config --file ~/.gitconfig.local user.name \"Your Name\""
+  echo "        git config --file ~/.gitconfig.local user.email \"you@example.com\""
+  echo "        git config --file ~/.gitconfig.local user.signingkey \"<key-id-or-path>\""
+  if [ -n "$GITCONFIG_BACKUP" ]; then
+    echo "      Your previous ~/.gitconfig was backed up to:"
+    echo "        $GITCONFIG_BACKUP"
+    echo "      Copy any settings you want to keep (identity, aliases, ...) from there."
+  fi
+  echo "   👉 Add machine-specific login shell overrides in ~/.zprofile.local"
+  echo "   👉 Add machine-specific shell env overrides in ~/.zshenv.local"
+  echo "   👉 Add machine-specific shell overrides in ~/.zshrc.local"
+  echo "   👉 Add machine-specific mise overrides in ~/.config/mise/conf.d/*.toml"
+  echo ""
 fi
-echo "   👉 Configure your Git identity in ~/.gitconfig.local"
-echo "   👉 Add machine-specific login shell overrides in ~/.zprofile.local"
-echo "   👉 Add machine-specific shell env overrides in ~/.zshenv.local"
-echo "   👉 Add machine-specific shell overrides in ~/.zshrc.local"
-echo "   👉 Add machine-specific mise overrides in ~/.config/mise/conf.d/*.toml"
-echo ""
