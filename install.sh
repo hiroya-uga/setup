@@ -159,9 +159,9 @@ else
   install_file "$CURRENT_DIR/dotfiles/common/editor/.prettierrc.js" "$HOME/.prettierrc.js"
   install_file "$CURRENT_DIR/dotfiles/common/claude/settings.json" "$HOME/.claude/settings.json"
   install_file "$CURRENT_DIR/dotfiles/common/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
-  for personal in "$CURRENT_DIR"/dotfiles/common/claude/personals/*.md; do
-    [ -e "$personal" ] || continue
-    install_file "$personal" "$HOME/.claude/personals/$(basename "$personal")"
+  for persona in "$CURRENT_DIR"/dotfiles/common/claude/personas/*.md; do
+    [ -e "$persona" ] || continue
+    install_file "$persona" "$HOME/.claude/personas/$(basename "$persona")"
   done
   install_file "$CURRENT_DIR/dotfiles/common/mise/config.toml" "$HOME/.config/mise/config.toml"
 fi

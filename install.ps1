@@ -52,8 +52,8 @@ Install-File "$CURRENT_DIR\dotfiles\common\editor\.editorconfig" "$HOME\.editorc
 Install-File "$CURRENT_DIR\dotfiles\common\editor\.prettierrc.js" "$HOME\.prettierrc.js" -Force:$Force
 Install-File "$CURRENT_DIR\dotfiles\common\claude\settings.json" "$HOME\.claude\settings.json" -Force:$Force
 Install-File "$CURRENT_DIR\dotfiles\common\claude\CLAUDE.md" "$HOME\.claude\CLAUDE.md" -Force:$Force
-foreach ($personal in Get-ChildItem -LiteralPath "$CURRENT_DIR\dotfiles\common\claude\personals" -Filter *.md -File -ErrorAction SilentlyContinue) {
-  Install-File $personal.FullName "$HOME\.claude\personals\$($personal.Name)" -Force:$Force
+foreach ($persona in Get-ChildItem -LiteralPath "$CURRENT_DIR\dotfiles\common\claude\personas" -Filter *.md -File -ErrorAction SilentlyContinue) {
+  Install-File $persona.FullName "$HOME\.claude\personas\$($persona.Name)" -Force:$Force
 }
 Install-File "$CURRENT_DIR\dotfiles\common\mise\config.toml" "$HOME\.config\mise\config.toml" -Force:$Force
 
