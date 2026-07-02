@@ -7,7 +7,25 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node -e \"const fs=require('fs'),p=require('path'),os=require('os');const d=p.join(os.homedir(),'.claude','personas');try{const f=fs.readdirSync(d).filter(x=>x.endsWith('.md'));if(f.length){const pick=f[Math.floor(Math.random()*f.length)];process.stdout.write('## 今回の人格\\n'+fs.readFileSync(p.join(d,pick),'utf8'));}}catch(e){}\""
+            "command": "node -e \"const fs=require('fs'),p=require('path'),os=require('os');let sid='';try{sid=JSON.parse(fs.readFileSync(0,'utf8')).session_id||'';}catch(e){}const cf=sid?p.join(os.tmpdir(),'claude-persona-'+sid+'.md'):'';if(cf&&fs.existsSync(cf)){try{const c=fs.readFileSync(cf,'utf8');if(c){process.stdout.write(c);process.exit(0);}}catch(e){}}const d=p.join(os.homedir(),'.claude','personas');try{const f=fs.readdirSync(d).filter(x=>x.endsWith('.md'));if(f.length){const pick=f[Math.floor(Math.random()*f.length)];const out='## 今回の人格\\n'+fs.readFileSync(p.join(d,pick),'utf8');if(cf){try{fs.writeFileSync(cf,out);}catch(e){}}process.stdout.write(out);}}catch(e){}\""
+          }
+        ]
+      },
+      {
+        "matcher": "clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const fs=require('fs'),p=require('path'),os=require('os');let sid='';try{sid=JSON.parse(fs.readFileSync(0,'utf8')).session_id||'';}catch(e){}const cf=sid?p.join(os.tmpdir(),'claude-persona-'+sid+'.md'):'';if(cf&&fs.existsSync(cf)){try{const c=fs.readFileSync(cf,'utf8');if(c){process.stdout.write(c);process.exit(0);}}catch(e){}}const d=p.join(os.homedir(),'.claude','personas');try{const f=fs.readdirSync(d).filter(x=>x.endsWith('.md'));if(f.length){const pick=f[Math.floor(Math.random()*f.length)];const out='## 今回の人格\\n'+fs.readFileSync(p.join(d,pick),'utf8');if(cf){try{fs.writeFileSync(cf,out);}catch(e){}}process.stdout.write(out);}}catch(e){}\""
+          }
+        ]
+      },
+      {
+        "matcher": "compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const fs=require('fs'),p=require('path'),os=require('os');let sid='';try{sid=JSON.parse(fs.readFileSync(0,'utf8')).session_id||'';}catch(e){}const cf=sid?p.join(os.tmpdir(),'claude-persona-'+sid+'.md'):'';if(cf&&fs.existsSync(cf)){try{const c=fs.readFileSync(cf,'utf8');if(c){process.stdout.write(c);process.exit(0);}}catch(e){}}const d=p.join(os.homedir(),'.claude','personas');try{const f=fs.readdirSync(d).filter(x=>x.endsWith('.md'));if(f.length){const pick=f[Math.floor(Math.random()*f.length)];const out='## 今回の人格\\n'+fs.readFileSync(p.join(d,pick),'utf8');if(cf){try{fs.writeFileSync(cf,out);}catch(e){}}process.stdout.write(out);}}catch(e){}\""
           }
         ]
       }
