@@ -1,5 +1,7 @@
 {
-  "model": "claude-opus-4-7",
+  "model": "sonnet",
+  "autoCompactEnabled": true,
+  "autoCompactWindow": 150000,
   "hooks": {
     "SessionStart": [
       {
