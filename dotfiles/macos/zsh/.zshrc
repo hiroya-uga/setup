@@ -15,8 +15,13 @@ gpg-auth() {
   }
 
   _sign_test() {
+    local signingkey gpg_args
+    signingkey=$(git config --get user.signingkey 2>/dev/null)
+    gpg_args=(--clearsign -o /dev/null)
+    [[ -n $signingkey ]] && gpg_args=(-u "$signingkey" $gpg_args)
+
     log=$(mktemp "${TMPDIR:-/tmp}/gpg-auth.XXXXXX")
-    print -r -- test | gpg --clearsign -o /dev/null 2>"$log"
+    print -r -- test | gpg "${gpg_args[@]}" 2>"$log"
     gpg_status=$?
     gpg_out=$(<"$log")
     rm -f "$log"; log=""
@@ -37,7 +42,7 @@ gpg-auth() {
     fi
 
     [[ -n $gpg_out ]] && print -r -- "$gpg_out" >&2
-    (( gpg_status == 0 ))   && { echo "✓ GPG authenticated"; return 0; }
+    (( gpg_status == 0 ))   && { echo "✓ GPG authenticated: $(git config --get user.email 2>/dev/null)"; return 0; }
     (( gpg_status == 130 )) && { echo "GPG authentication canceled" >&2; return 130; }
     echo "✗ GPG auth failed" >&2
     return $gpg_status
