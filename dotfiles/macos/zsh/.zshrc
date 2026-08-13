@@ -55,3 +55,5 @@ gpg-auth() {
 if [[ -f "$HOME/.zshrc.local" ]]; then
   source "$HOME/.zshrc.local"
 fi
+
+eval "$(git-cd init zsh)" # git-cd
