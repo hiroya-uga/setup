@@ -63,7 +63,13 @@
       "Bash(git branch --show-current)",
       "Bash(ls*)",
       "Bash(cat*)",
-      "Bash(grep*)"
+      "Bash(grep*)",
+      "Bash(git merge-base *)",
+      "Bash(git grep *)",
+      "Bash(git stash list)",
+      "Bash(git stash show *)",
+      "Bash(sed -n *)",
+      "Bash(npm view *)"
     ]
   }
 }
