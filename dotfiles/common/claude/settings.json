@@ -1,5 +1,5 @@
 {
-  "model": "sonnet",
+  "effortLevel": "medium",
   "autoCompactEnabled": true,
   "autoCompactWindow": 150000,
   "hooks": {
